@@ -1,0 +1,125 @@
+--1
+select count(f.cod_cliente) Codigo, 
+		nom_cliente+' '+ape_cliente Clientes
+from facturas f
+	join clientes c on f.cod_cliente = c.cod_cliente
+where not exists ( select f1.cod_vendedor
+					from facturas f1
+					where f1.cod_vendedor in( 1, 3) and
+					f1.nro_factura = f.nro_factura
+				)
+group by nom_cliente+' '+ape_cliente
+
+--2
+select df.cod_articulo Codigo,
+		a.descripcion
+from detalle_facturas df
+	join articulos a on a.cod_articulo = df.cod_articulo
+where not exists ( select *
+								from detalle_facturas
+								where cod_articulo = df.cod_articulo
+								)
+
+--3
+select * 
+from clientes c
+where 10 > ( select count(cod_cliente)
+				from facturas
+				where c.cod_cliente = cod_cliente
+				)
+
+--4
+select nro_factura Numero,
+		fecha,
+		f.cod_vendedor,
+		v.nom_vendedor+''+v.ape_vendedor 'Vendedores'
+from facturas f
+	join vendedores v on v.cod_vendedor=f.cod_vendedor
+where year(fecha) in (2008,2011)
+and 5  >  ( select count(f1.nro_factura)
+			from facturas f1
+			where f1.nro_factura = f.nro_factura
+			group by month(f1.fecha)
+			)
+
+--5
+select f.nro_factura Numero,
+		fecha,
+		df.cantidad,
+		df.pre_unitario Precio_Unitario
+from facturas f
+	join detalle_facturas df on df.nro_factura = f.nro_factura
+group by f.nro_factura,
+		fecha,
+		df.cantidad,
+		df.pre_unitario
+having avg(df.pre_unitario) < ( select sum(pre_unitario)
+									from detalle_facturas 
+									where nro_factura = f.nro_factura
+									group by nro_factura
+									)
+
+select f.nro_factura Numero,
+		fecha,
+		df.cantidad,
+		df.pre_unitario Precio_Unitario,
+		pre_unitario*cantidad Importe
+from facturas f
+	join detalle_facturas df on df.nro_factura = f.nro_factura
+where pre_unitario < all ( select avg(pre_unitario)
+									from detalle_facturas 
+									where nro_factura = f.nro_factura
+									
+									)
+
+--6
+select f.nro_factura Numero,
+		fecha,
+		df.cantidad,
+		df.pre_unitario Precio_Unitario,
+		pre_unitario*cantidad Importe
+from facturas f
+	join detalle_facturas df on df.nro_factura = f.nro_factura
+where pre_unitario > any ( select avg(pre_unitario)
+							from detalle_facturas 
+							where nro_factura = f.nro_factura
+						 )
+	
+
+--7 ESTA MAL
+select a.cod_articulo Codigo,
+		a.descripcion,
+		a.pre_unitario,
+		a.stock_minimo,
+		fecha
+from articulos a
+	join detalle_facturas df on df.cod_articulo =a.cod_articulo
+	join facturas f on f.nro_factura = df.nro_factura
+where year(fecha) = year(getdate())
+and 6 >  (
+		select count(cantidad)
+		from detalle_facturas
+		join facturas on facturas.nro_factura=detalle_facturas.nro_factura
+		--where a.cod_articulo = cod_articulo
+		group by month(fecha)
+		)
+
+--OTRA FORMA DE HACERLO
+select a.cod_articulo Codigo,
+		a.descripcion,
+		a.pre_unitario,
+		a.stock_minimo,
+		count(df.cantidad)
+from articulos a
+	join detalle_facturas df on df.cod_articulo =a.cod_articulo
+	join facturas f on f.nro_factura = df.nro_factura
+where year(fecha) = year(getdate())
+group by month(fecha), a.cod_articulo,a.descripcion,
+		a.pre_unitario,
+		a.stock_minimo
+having  6 >  (
+		select count(cantidad)
+		from detalle_facturas
+		join facturas on facturas.nro_factura=detalle_facturas.nro_factura
+		where a.cod_articulo = cod_articulo
+		)
