@@ -1,0 +1,324 @@
+use LIBRERIA2019;
+
+create  view VistaCLientes
+with encryption
+as
+select cod_cliente Codigo,
+		nom_cliente+' '+ape_cliente 'Detalles de los Clientes',
+		b.barrio Barrio,
+		nro_tel Telefono,
+		[e-mail] Correo
+
+from clientes c
+	join barrios b on b.cod_barrio = c.cod_barrio
+
+drop view VistaCLientes
+sp_helptext VistaClientes
+
+--crear vista con el nombre de las columnas
+create view VistaClientesFC (fecha, cantidad)
+as
+select DATEPART(year,fecha), count(*)
+from facturas
+group by DATEPART(year,fecha)
+
+
+--visualizar codigo
+sp_helptext VistaClientes;
+
+--crear vista ENCRIPTADA
+create view DF (vendedores)
+with encryption
+as
+select nom_vendedor+' '+ ape_vendedor
+from vendedores
+
+--ver codigo de la vista
+sp_helptext VistaClientesFC
+
+--eliminar vista
+drop view VistaClientesFC
+
+
+
+
+-- alterar vista
+alter view DF ( Vendedor, Domicilio )
+as
+select nom_vendedor+' '+ape_vendedor, calle+' '+altura
+from vendedores
+
+-- alterar vista
+alter view DF( Vendedor, Domicilio )
+as
+select nom_vendedor+' '+ape_vendedor, calle+' '+convert(char(5),altura)
+from vendedores
+
+
+
+
+--visualizar vista
+select *
+from DF
+
+
+----------------------------------------------------------------------------------------------------
+-- creacion procedimiento
+create procedure Emilio
+as 
+select * 
+from clientes
+where nro_tel is not null
+
+-- ejecucion procedimiento
+exec Emilio
+
+------------------------------------
+
+create procedure E
+as
+select count(*)
+from vendedores
+
+exec e
+--eliminar procedimiento
+drop procedure E
+
+------------------------------------
+
+-- creacion procedimiento con PARAMETROS
+
+create procedure Particulos
+@descripcionarticulo varchar(30)
+as
+select cod_articulo, descripcion
+from articulos
+where descripcion like @descripcionarticulo
+
+--
+drop procedure Particulos
+--
+
+-- Ejecutando el procedimiento con PARAMETROS
+
+exec Particulos 
+@descripcionarticulo =  'c%'
+
+
+create procedure PArticulos2
+@codigoarticulo int
+as
+select cod_articulo, descripcion
+from articulos
+where cod_articulo  =  @codigoarticulo
+
+--
+drop procedure PArticulos2
+--
+
+
+exec PArticulos2
+@codigoarticulo = 1
+-- u otro metodo: 
+exec PArticulos2 1
+
+
+
+-----------------------------------------------------------------------
+create procedure ejemploCliente
+
+@nombrecliente varchar (60) = 'Jorge',
+@codbarrio int 
+as
+select cod_cliente, nom_cliente,ape_cliente, cod_barrio
+from clientes
+where 
+ nom_cliente like @nombrecliente
+and cod_barrio = @codbarrio 
+
+
+
+exec ejemploCliente
+
+@codbarrio 1 
+
+----------------------------------------------------
+--Procedimientos de Amacenados Con PARAMETROS de Salida
+
+create procedure facturasSALIDA
+@numerofactura int,
+@monto decimal(10,2) output,
+@cantidadtotal int output,
+@promedioprecio decimal (10,2) output,
+@promediototal decimal ( 10,2) output
+
+as
+
+
+select nro_factura, cantidad, pre_unitario
+from  detalle_facturas 
+where nro_factura = @numerofactura
+
+select @cantidadtotal = sum(cantidad)
+from detalle_facturas
+where nro_factura = @numerofactura
+
+select @monto = sum(cantidad*pre_unitario)
+from detalle_facturas
+where nro_factura = @numerofactura
+
+select @promedioprecio = avg(pre_unitario)
+from detalle_facturas
+where @numerofactura = nro_factura
+
+select @promediototal = avg(pre_unitario*cantidad)
+from detalle_facturas
+where nro_factura = @numerofactura
+
+
+
+---
+drop procedure facturasSALIDA
+----------------------------------------------
+
+--Ejecucion de Procedimiento con Salidas
+declare @Smonto decimal (10,2),
+		@Spromedio decimal (10,2),
+		@SpromedioT decimal( 10,2),
+		@Scantidad int
+exec facturasSALIDA 2, @Smonto output,@Scantidad output, @Spromedio output, @SpromedioT output
+select @Smonto as Importe, @Spromedio 'Promedio Unitario', @SpromedioT 'Promedio Total', @Scantidad 'Cantidad Total'
+
+------------------------------------------------
+create procedure DetallesFacturas2
+@nro_factura int,
+@promediototal decimal(10,2) output,
+@importe decimal(10,2) output
+
+as
+
+select nro_factura 
+from detalle_facturas
+where nro_factura = @nro_factura
+	
+set @promediototal = ( select avg(pre_unitario*cantidad)
+					from detalle_facturas
+					where nro_factura = @nro_factura
+					)
+set @importe = ( select sum(pre_unitario*cantidad)
+					from detalle_facturas
+					where nro_factura = @nro_factura
+					)
+
+----------------------------------------
+
+declare @Simporte decimal (10,2),
+		@SpromedioT decimal ( 10,2)
+exec DetallesFacturas2 @nro_factura = 10,@importe =  @Simporte output,@promediototal = @SpromedioT output
+select @Simporte 'Importe Total', @SpromedioT 'Promedio Total'
+
+------------------------------------------------------------------------------------------------------------
+--*********************************************************************************************************
+-----------------------------------------------------------------------------------------------------------
+
+--Procedimentos RETURN
+
+create procedure ClientesR
+@correo varchar(50) = null,
+@telefono bigint = null
+with encryption
+as
+
+select cod_cliente, nom_cliente+' '+ape_cliente 'Nombre y Apellido Cliente'
+from clientes
+where @correo like [e-mail] and @telefono = nro_tel
+if ( @correo is null ) and ( @telefono is null ) -- compara si los paramatros son nullos
+		return 0 -- devuelve 0
+	else
+		return 1
+
+	--	drop procedure ClientesR
+-----------------------------------------------
+declare @retorno int
+exec @retorno = ClientesR 'castillo%'
+select @retorno
+
+------------------------------------------------------------------------------------------------------------
+--*********************************************************************************************************
+-----------------------------------------------------------------------------------------------------------
+
+
+--Procedimietos de Almacenados INSERT
+
+create procedure datosclientes
+as
+select cod_cliente, nom_cliente, ape_cliente, calle, altura, nro_tel, [e-mail] 
+from  clientes
+
+
+insert into Personas exec datosclientes
+
+
+------------------------------------------------------------------------------------------------------------
+--*********************************************************************************************************
+-----------------------------------------------------------------------------------------------------------
+sp_depends datosclientes -- muestra las dependecias
+
+sp_helptext ClientesR
+
+
+select * from sysobjects -- muestra todos los objetos de sql
+
+
+------------------------------------------------------------------------------------------------------------
+--*********************************************************************************************************
+-----------------------------------------------------------------------------------------------------------
+
+--Procedimientos Almacenados ANIDACIONES
+
+create procedure cantvendedores
+@cantvend int output
+with encryption 
+as
+
+set @cantvend = ( select count(*) from vendedores )
+
+
+create procedure promediovendedores
+@provend int output
+as
+
+begin 
+	declare @Sprovend int
+	exec cantvendedores @Sprovend output
+	set @provend = avg(@Sprovend)
+end
+
+declare @sresultado1 int
+exec cantvendedores @sresultado1 output
+select @sresultado1 'Cantidad Vendedores'
+
+
+
+------------------------------------------------------------------------------------------------------------
+--*********************************************************************************************************
+-----------------------------------------------------------------------------------------------------------
+
+		--FUNCIONES
+
+create function f_promedio
+	(
+	@valor1 decimal(4,2),
+	@valor2 decimal(4,2)
+	)
+
+	returns decimal (6,2)
+as
+	begin
+		declare @resultado decimal(6,2)
+		set @resultado=(@valor1+@valor2)/2
+		return @resultado
+	end;
+
+select dbo.f_promedio(3.7,5.9)
+
