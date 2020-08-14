@@ -1,0 +1,42 @@
+--Creo cursor nuevo
+declare cursor1 cursor
+	for select * from articulos
+
+open cursor1 -- Abro el cursor ( lo inserto en la memoria Ram )
+fetch next from cursor1 -- Me imprime cada registro segun orden
+close cursor1 -- Cierro cursor
+Deallocate cursor1 -- Lo elimino de la Ram
+
+
+-- EJEMPLO 1
+declare articulosnonulos cursor 
+	for select * from articulos 
+		where observaciones is not null
+
+open articulosnonulos
+fetch next from articulosnonulos
+close articulosnonulos
+deallocate articulosnonulos
+
+--EJEMPLO 2
+
+Declare @codigocliente int,
+@nombrecliente varchar(50),
+@apellidocliente varchar(50),
+@calle varchar(50),
+@correo varchar(50)
+Declare cclientes cursor
+	for select cod_cliente, nom_cliente, ape_cliente, calle, [e-mail]
+		from clientes
+		where [e-mail] is not null
+open cclientes
+fetch cclientes into @codigocliente, @nombrecliente, @apellidocliente, @calle, @correo
+while (@@FETCH_STATUS = 0) -- devuelve 0 si todo se ejecuto bien / -1: si hubo un error / -2: error en fila recuperada
+	begin
+		print  convert(char(250),@codigocliente)+''+ @nombrecliente+''+ @apellidocliente+''+ @calle+''+ @correo --IMPRIMIRA LOS VALORES
+		fetch cclientes into @codigocliente, @nombrecliente, @apellidocliente, @calle, @correo --CARGARA EL PRIMER REGISTRO EN RAM
+	end
+
+
+close cclientes
+deallocate cclientes
