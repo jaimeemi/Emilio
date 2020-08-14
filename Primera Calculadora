@@ -1,0 +1,95 @@
+/*
+    PRIMERA CALCULADORA PERSONAL
+*/
+
+package calculadora;
+
+import javax.swing.JOptionPane;
+public class Calculadora {
+    
+    public static void main(String[] args) {
+        
+        //Variables e Iniciacion
+        JOptionPane.showMessageDialog(null, "Esta es una Calculadora Personal");
+        int pregunta=0;
+        boolean respuesta = false;
+        double resultado = 0;
+        char tipooperacion;
+        
+        do{//Arrancando Programa
+             
+        //Exigiendo al Usuario Primer Valor    
+        double numero1 = Double.parseDouble(JOptionPane.showInputDialog(" Ingrese Valor "));
+            System.out.println("Numero 1: "+numero1);//Consola
+        
+         do{//Pidiendo Operador. Mientras Operador sea diferente Volver a Pedir   
+            tipooperacion = JOptionPane.showInputDialog(numero1+" Ingrese Operador "
+                    + "\n + "
+                    + "\n - "
+                    + "\n x "
+                    + "\n / ").charAt(0);
+            System.out.println("Operacion: " +tipooperacion);//Consola
+            
+            //Si el Caracter es cualquier Operador, Continuar
+            if( (tipooperacion == "+".charAt(0) 
+                || tipooperacion == "-".charAt(0)
+                || tipooperacion == "*".charAt(0)
+                || tipooperacion == "x".charAt(0)
+                || tipooperacion == "/".charAt(0) )){
+                break;
+                
+            }else{//Sino, Pedir Operador Nuevamente
+                JOptionPane.showMessageDialog(null, "Elija una Operacion "
+                        + "\n+, -, x o * y / ");
+                System.out.println("Operador Mal Ingresado!");//Consola
+            }
+            
+            
+            }while(//Mientras el caracter sea diferente de los operadores, devolver mensaje de error
+            (tipooperacion != "+".charAt(0) 
+                || tipooperacion != "-".charAt(0)
+                || tipooperacion != "*".charAt(0)
+                || tipooperacion != "x".charAt(0)
+                || tipooperacion != "/".charAt(0) )
+                    
+                );
+        // Exigiendo al Usuario Segundo Valor
+        double numero2 = Double.parseDouble(JOptionPane.showInputDialog(" Ingrese Segundo Valor "));
+            System.out.println("Numero 2: "+numero2);//Cosnola
+        
+        
+            // Determino Que Operador Usa para Calcular los Valores y Asignarlos en la Variable: "resultado"
+                if(tipooperacion == "+".charAt(0)){// Suma
+                resultado = numero1 + numero2;
+                    System.out.println(numero1+" + "+numero2+" = "+resultado);//Consola
+                }
+                else if(tipooperacion == "-".charAt(0)){ //Resta
+                    resultado = numero1 - numero2;
+                    System.out.println(resultado);//Consola
+                }
+                else if(tipooperacion == "*".charAt(0) || tipooperacion == "x".charAt(0)){// Multiplicacion
+                    resultado = numero1 * numero2;
+                    System.out.println(numero1+" * "+numero2+" = "+resultado);//Consola
+                }
+                else if(tipooperacion == "/".charAt(0)){//Division
+                    resultado = numero1 / numero2;
+                    //Double resto = numero1 % numero2;
+                    System.out.println(numero1+" / "+numero2+" = "+resultado);//Consola
+                }
+                //Mensaje De Continuar o Finalizar Calculadora
+                JOptionPane.showMessageDialog(null, "Resultado: " +resultado);
+                pregunta = Integer.parseInt(JOptionPane.showInputDialog("\n1: Continuar "
+                    + "\n2: Terminar"
+                    + "\n"
+                    + " "));
+                
+                if(pregunta == 1){//Si la Opcion es 1: Continuar
+                    respuesta = true;
+                }
+                else{ // Sino, Terminar
+                    JOptionPane.showMessageDialog(null, "Adios");
+                }
+               
+       }while (respuesta == true); // Final
+    }
+}
