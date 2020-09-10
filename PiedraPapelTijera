@@ -1,0 +1,470 @@
+package GUI;
+
+public class principal extends javax.swing.JFrame {
+    
+    int cont1=0, cont2=0;
+    public principal() {
+        initComponents();
+        setResizable(false);
+        setSize(1290, 630);
+        this.setLocationRelativeTo(null);
+        labelPuntajeJugador.setText("0");
+        LabelPuntajeComputadora.setText("0");
+        
+     
+        LabelVS.setVisible(true);
+        labelJugador.setVisible(true);
+        LabelComputadora.setVisible(true);
+        labelResultado.setVisible(false);
+        
+    }
+    
+    
+    // IA = Inteligencia Artificial
+    public void IA(){
+        //Propiedades de la IA
+        Piedra1.setEnabled(true);
+        Tijera1.setEnabled(true);
+        Papel1.setEnabled(true);
+        
+        //Crea un Numero Aleatorio entre el 0 y el 3
+        int computer = (int) (Math.random()*3);
+        
+        
+        if(computer == 0){
+            Piedra1.setEnabled(false);
+        }
+        else if(computer == 1){
+            Tijera1.setEnabled(false);
+        }
+        else if(computer == 2){
+            Papel1.setEnabled(false);
+        }
+    }
+    
+    public void game(){
+        
+        int computer = (int) (Math.random()*3);
+        
+        //Estado Incial de los Botones
+            
+        
+        //*******************************************************
+        //Primera Seccion. Computadora Elije PIEDRA
+        if (Piedra.isSelected() && computer == 0) {
+                //Jugador = Piedra
+                Piedra.setVisible(true);
+                Papel.setVisible(false);
+                Tijera.setVisible(false);
+                //Computadora = Piedra
+                Piedra1.setVisible(true);
+                Papel1.setVisible(false);
+                Tijera1.setVisible(false);
+                Piedra1.setEnabled(true);
+                Papel1.setEnabled(false);
+                Tijera1.setEnabled(false);
+                
+                labelResultado.setText("Empate");
+                
+            }
+        else if(Tijera.isSelected() && computer == 0){
+                //Jugador = Tijera
+                Piedra.setVisible(false);
+                Tijera.setVisible(true);
+                Papel.setVisible(false);
+                //Computadora = Piedra
+                Piedra1.setVisible(true);
+                Papel1.setVisible(false);
+                Tijera1.setVisible(false);
+                Piedra1.setEnabled(true);
+                Papel1.setEnabled(false);
+                Tijera1.setEnabled(false);
+                
+                
+                labelResultado.setText("Ganador Computadora");
+        }
+        else if(Papel.isSelected() && computer == 0){
+                //Jugador = Papel
+                Piedra.setVisible(false);
+                Tijera.setVisible(false);
+                Papel.setVisible(true);
+                //Computadora = Piedra
+                Piedra1.setVisible(true);
+                Papel1.setVisible(false);
+                Tijera1.setVisible(false);
+                Piedra1.setEnabled(true);
+                Papel1.setEnabled(false);
+                Tijera1.setEnabled(false);
+                
+                
+                labelResultado.setText("Ganador Jugador");
+        }
+        
+        //***************************************************
+        // Segunda Seleccion= Computadora Elije TIJERAS
+        else if(Piedra.isSelected() && computer == 1){
+                //Jugador = Piedra
+                Piedra.setVisible(true);
+                Tijera.setVisible(false);
+                Papel.setVisible(false);
+                //Computadora = Piedra
+                Piedra1.setVisible(false);
+                Papel1.setVisible(false);
+                Tijera1.setVisible(true);
+                Piedra1.setEnabled(false);
+                Papel1.setEnabled(false);
+                Tijera1.setEnabled(true);
+                
+                
+                labelResultado.setText("Ganador Jugador");
+        }
+        else if(Tijera.isSelected() && computer == 1){
+                //Jugador = Tijera
+                Piedra.setVisible(false);
+                Tijera.setVisible(true);
+                Papel.setVisible(false);
+                //Computadora = Piedra
+                Piedra1.setVisible(false);
+                Papel1.setVisible(false);
+                Tijera1.setVisible(true);
+                Piedra1.setEnabled(false);
+                Papel1.setEnabled(false);
+                Tijera1.setEnabled(true);
+                
+                
+                labelResultado.setText("Empate");
+        }
+        else if(Papel.isSelected() && computer == 1){
+                //Jugador = Papel
+                Piedra.setVisible(false);
+                Tijera.setVisible(false);
+                Papel.setVisible(true);
+                //Computadora = Piedra
+                Piedra1.setVisible(false);
+                Papel1.setVisible(false);
+                Tijera1.setVisible(true);
+                Piedra1.setEnabled(false);
+                Papel1.setEnabled(false);
+                Tijera1.setEnabled(true);
+                
+                
+                labelResultado.setText("Ganador Computadora");
+        }
+            //*******************************************************
+            // Tercera Seleccion= Computadora Elije PAPEL
+        else if(Piedra.isSelected() && computer == 2){
+                //Jugador = Piedra
+                Piedra.setVisible(true);
+                Tijera.setVisible(false);
+                Papel.setVisible(false);
+                //Computadora = Papel
+                Piedra1.setVisible(false);
+                Papel1.setVisible(true);
+                Tijera1.setVisible(false);
+                Piedra1.setEnabled(false);
+                Papel1.setEnabled(true);
+                Tijera1.setEnabled(false);
+                
+                
+                labelResultado.setText("Ganador Computadora");
+        }
+        else if(Tijera.isSelected() && computer == 2){
+                //Jugador = Tijera
+                Piedra.setVisible(false);
+                Tijera.setVisible(true);
+                Papel.setVisible(false);
+                //Computadora = Piedra
+                Piedra1.setVisible(false);
+                Papel1.setVisible(true);
+                Tijera1.setVisible(false);
+                Piedra1.setEnabled(false);
+                Papel1.setEnabled(true);
+                Tijera1.setEnabled(false);
+                
+                
+                labelResultado.setText("Ganador Jugador");
+        }
+        else if(Papel.isSelected() && computer == 2){
+                //Jugador = Papel
+                Piedra.setVisible(false);
+                Tijera.setVisible(false);
+                Papel.setVisible(true);
+                //Computadora = Piedra
+                Piedra1.setVisible(false);
+                Papel1.setVisible(true);
+                Tijera1.setVisible(false);
+                Piedra1.setEnabled(false);
+                Papel1.setEnabled(true);
+                Tijera1.setEnabled(false);
+                
+                labelResultado.setText("Empate");
+        }
+        //***************************************
+        //Se muestra el Resultado
+        labelResultado.setVisible(true);
+        //******************************************
+        //Se Suma Puntos a Quien Gano
+        
+        if ("Ganador Computadora".equals(labelResultado.getText())){
+            cont2 ++;
+            
+        }
+        else if ("Ganador Jugador".equals(labelResultado.getText())){
+            cont1 ++;
+            
+        }
+
+        labelPuntajeJugador.setText(Integer.toString(cont1));
+        LabelPuntajeComputadora.setText(Integer.toString(cont2));
+    }
+    
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        Papel = new javax.swing.JButton();
+        Tijera = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
+        jSeparator4 = new javax.swing.JSeparator();
+        jSeparator5 = new javax.swing.JSeparator();
+        jSeparator6 = new javax.swing.JSeparator();
+        LabelVS = new javax.swing.JLabel();
+        jSeparator10 = new javax.swing.JSeparator();
+        Piedra1 = new javax.swing.JButton();
+        Tijera1 = new javax.swing.JButton();
+        Papel1 = new javax.swing.JButton();
+        jSeparator11 = new javax.swing.JSeparator();
+        jSeparator12 = new javax.swing.JSeparator();
+        jSeparator13 = new javax.swing.JSeparator();
+        LabelPuntajeComputadora = new javax.swing.JLabel();
+        labelPuntajeJugador = new javax.swing.JLabel();
+        LabelComputadora = new javax.swing.JLabel();
+        labelJugador = new javax.swing.JLabel();
+        labelResultado = new javax.swing.JLabel();
+        Piedra = new javax.swing.JButton();
+        BotonResetear = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 102, 204));
+
+        jPanel1.setBackground(new java.awt.Color(0, 102, 204));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Papel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/papel-slide.png"))); // NOI18N
+        Papel.setText("Papel");
+        Papel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PapelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Papel, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 350, 260, 240));
+
+        Tijera.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/tijera-slide.png"))); // NOI18N
+        Tijera.setText("Tijera");
+        Tijera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TijeraActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Tijera, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 130, 230, 220));
+
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 20, 500));
+
+        jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 100, 20, 500));
+        jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 480, 20));
+        jPanel1.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 600, 480, 30));
+
+        LabelVS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/VS-small.png"))); // NOI18N
+        LabelVS.setText("jLabel1");
+        jPanel1.add(LabelVS, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 320, 230, 210));
+        jPanel1.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 100, 480, 20));
+
+        Piedra1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/piedra-slide.png"))); // NOI18N
+        Piedra1.setText("Piedra");
+        jPanel1.add(Piedra1, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 130, 230, 220));
+
+        Tijera1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/tijera-slide.png"))); // NOI18N
+        Tijera1.setText("Tijera");
+        jPanel1.add(Tijera1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 130, 230, 220));
+
+        Papel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/papel-slide.png"))); // NOI18N
+        Papel1.setText("Papel");
+        jPanel1.add(Papel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 350, 260, 240));
+
+        jSeparator11.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel1.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1270, 100, 20, 500));
+
+        jSeparator12.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel1.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 100, 20, 500));
+        jPanel1.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 600, 480, 30));
+
+        LabelPuntajeComputadora.setText("Puntaje");
+        jPanel1.add(LabelPuntajeComputadora, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 50, 190, 50));
+
+        labelPuntajeJugador.setText("Puntaje");
+        jPanel1.add(labelPuntajeJugador, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, 190, 40));
+
+        LabelComputadora.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        LabelComputadora.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        LabelComputadora.setText("Computadora");
+        jPanel1.add(LabelComputadora, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, 280, 40));
+
+        labelJugador.setFont(new java.awt.Font("Traditional Arabic", 2, 24)); // NOI18N
+        labelJugador.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelJugador.setText("Jugador");
+        jPanel1.add(labelJugador, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 370, 40));
+
+        labelResultado.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
+        labelResultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelResultado.setText("Ganador");
+        jPanel1.add(labelResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 0, 450, 100));
+
+        Piedra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/piedra-slide.png"))); // NOI18N
+        Piedra.setText("Piedra");
+        Piedra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PiedraActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Piedra, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 230, 220));
+
+        BotonResetear.setText("Restar");
+        BotonResetear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonResetearActionPerformed(evt);
+            }
+        });
+        jPanel1.add(BotonResetear, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 190, 210, 100));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1577, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 853, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 103, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    private void PiedraActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        //Accion de Selecciona Piedra
+        Piedra.setSelected(true);
+        IA();
+        game();
+    }                                      
+
+    private void TijeraActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        // Accion de Seleccionar Tijera
+        Tijera.setSelected(true);
+        IA();
+        game();
+    }                                      
+
+    private void PapelActionPerformed(java.awt.event.ActionEvent evt) {                                      
+        // Accion de Seleccionar Papel
+        Papel.setSelected(true);
+        IA();
+        game();
+    }                                     
+
+    private void BotonResetearActionPerformed(java.awt.event.ActionEvent evt) {                                              
+        // BOTON DE RESETEAR
+        Piedra.setSelected(false);
+        Tijera.setSelected(false);
+        Papel.setSelected(false);
+        //Posiciona todos los Iconos en Visibles
+        Piedra.setVisible(true);
+        Papel.setVisible(true);
+        Tijera.setVisible(true);
+        Piedra1.setVisible(true);
+        Papel1.setVisible(true);
+        Tijera1.setVisible(true);
+        
+        
+        
+        
+        Piedra1.setEnabled(true);
+        Tijera1.setEnabled(true);
+        Papel1.setEnabled(true);
+        
+        labelResultado.setVisible(false);
+    }                                             
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new principal().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton BotonResetear;
+    private javax.swing.JLabel LabelComputadora;
+    private javax.swing.JLabel LabelPuntajeComputadora;
+    private javax.swing.JLabel LabelVS;
+    private javax.swing.JButton Papel;
+    private javax.swing.JButton Papel1;
+    private javax.swing.JButton Piedra;
+    private javax.swing.JButton Piedra1;
+    private javax.swing.JButton Tijera;
+    private javax.swing.JButton Tijera1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JSeparator jSeparator13;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JLabel labelJugador;
+    private javax.swing.JLabel labelPuntajeJugador;
+    private javax.swing.JLabel labelResultado;
+    // End of variables declaration                   
+}
